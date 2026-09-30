@@ -46,7 +46,7 @@ export function Layout() {
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 lg:hidden"
+            className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100"
             aria-label="Цэс нээх"
           >
             <Menu className="h-6 w-6" />
