@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Heart, MessageCircle, Send } from "lucide-react";
 import type { Post } from "../../types";
 import { useStore } from "../../store/useStore";
@@ -7,7 +8,13 @@ import { Tag } from "../ui/Tag";
 import { Card } from "../ui/Card";
 import { cn, timeAgo } from "../../lib/utils";
 
-export function PostCard({ post }: { post: Post }) {
+interface ClubBadge {
+  id: string;
+  name: string;
+  icon: string;
+}
+
+export function PostCard({ post, club }: { post: Post; club?: ClubBadge }) {
   const likePost = useStore((s) => s.likePost);
   const addComment = useStore((s) => s.addComment);
   const [showComments, setShowComments] = useState(false);
@@ -27,6 +34,17 @@ export function PostCard({ post }: { post: Post }) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <p className="font-display text-sm font-bold text-slate-900">{post.author}</p>
+            {club && (
+              <>
+                <span className="text-xs text-slate-300">·</span>
+                <Link
+                  to={`/clubs/${club.id}`}
+                  className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:underline"
+                >
+                  <span>{club.icon}</span> {club.name}
+                </Link>
+              </>
+            )}
             <span className="text-xs text-slate-400">· {timeAgo(post.date)}</span>
           </div>
           <Tag className="mt-1">{post.tag}</Tag>
