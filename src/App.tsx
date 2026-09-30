@@ -8,6 +8,7 @@ import QuizPlay from "./pages/QuizPlay";
 import Leaderboard from "./pages/Leaderboard";
 import Challenges from "./pages/Challenges";
 import Profile from "./pages/Profile";
+import ComingSoon from "./pages/ComingSoon";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="challenges" element={<Challenges />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="coming-soon/:section" element={<ComingSoon />} />
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>

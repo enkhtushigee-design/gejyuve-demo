@@ -53,11 +53,11 @@ export function Layout() {
           </button>
 
           <NavLink to="/" className="flex items-center gap-2 shrink-0">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-teal-glow text-lg shadow-sm">
-              🔬
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-glow text-lg text-slate-900 shadow-sm">
+              🔍
             </span>
             <span className="font-display text-lg font-extrabold tracking-tight text-slate-900">
-              Гэж Юу Вэ
+              gejyuve
               <span className="ml-1.5 rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand-600 align-middle">
                 Demo
               </span>
