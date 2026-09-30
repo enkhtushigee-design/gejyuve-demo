@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Home, Users2, BrainCircuit, Trophy, Swords, UserCircle2 } from "lucide-react";
+import { Home, Users2, BrainCircuit, Trophy, Swords, UserCircle2, Menu } from "lucide-react";
 import { useStore, totalXp } from "../store/useStore";
 import { levelForXp, levelProgress } from "../lib/xp";
 import { Avatar } from "./ui/Avatar";
 import { ProgressBar } from "./ui/ProgressBar";
 import { formatXp, cn } from "../lib/utils";
 import { BadgeUnlockToast } from "./BadgeUnlockToast";
+import { Sidebar } from "./Sidebar";
+import { getStoredTheme, applyTheme, type Theme } from "../lib/theme";
 
 const NAV_ITEMS = [
   { to: "/", label: "Нүүр", icon: Home, end: true },
@@ -21,12 +24,34 @@ export function Layout() {
   const xp = totalXp(user);
   const level = levelForXp(xp);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => getStoredTheme());
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
   return (
     <div className="min-h-screen bg-[#f5f7fb]">
       <BadgeUnlockToast />
 
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        theme={theme}
+        onToggleTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+      />
+
       <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 lg:hidden"
+            aria-label="Цэс нээх"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+
           <NavLink to="/" className="flex items-center gap-2 shrink-0">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-teal-glow text-lg shadow-sm">
               🔬
@@ -77,29 +102,9 @@ export function Layout() {
         <ProgressBar value={levelProgress(xp)} height="h-1" className="rounded-none bg-slate-100/70" />
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 pb-28 pt-6 sm:px-6 lg:pb-10">
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-6 sm:px-6">
         <Outlet />
       </main>
-
-      {/* Mobile bottom tab bar */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-slate-200 bg-white/95 py-2 backdrop-blur-md lg:hidden">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            className={({ isActive }) =>
-              cn(
-                "flex flex-col items-center gap-0.5 rounded-lg px-2.5 py-1 text-[10px] font-semibold",
-                isActive ? "text-brand-600" : "text-slate-400"
-              )
-            }
-          >
-            <item.icon className="h-5 w-5" strokeWidth={2.25} />
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
     </div>
   );
 }
